@@ -28,3 +28,18 @@ object SchoolModel:
       def nameOfCourse(teacher: Teacher): String
       def setTeacherToCourse(teacher: Teacher, course: Course): School
       def coursesOfATeacher(teacher: Teacher): Sequence[Course]
+
+  object BasicSchoolModule extends SchoolModule:
+    type School = (Sequence[Teacher], Sequence[Course])
+    type Teacher = (String, Sequence[Course])
+    type Course = (String)
+
+    extension (school: School)
+      def addTeacher(name: String): School = ???
+      def addCourse(name: String): School = ???
+      def teacherByName(name: String): Optional[Teacher] = ???
+      def courseByName(name: String): Optional[Course] = ???
+      def nameOfTeacher(teacher: Teacher): String = ???
+      def nameOfCourse(teacher: Teacher): String = ???
+      def setTeacherToCourse(teacher: Teacher, course: Course): School = ???
+      def coursesOfATeacher(teacher: Teacher): Sequence[Course] = ???
