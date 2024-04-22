@@ -29,8 +29,8 @@ object SchoolModel:
       def teacherByName(name: String): Optional[Teacher]
       def courseByName(name: String): Optional[Course]
       def nameOfTeacher(teacher: Teacher): String
-      def nameOfCourse(teacher: Teacher): String
-      def setTeacherToCourse(teacher: Teacher, course: Course): School
+      def nameOfCourse(course: Course): String
+      //def setTeacherToCourse(teacher: Teacher, course: Course): School
       def coursesOfATeacher(teacher: Teacher): Sequence[Course]
 
   object BasicSchoolModule extends SchoolModule:
@@ -41,12 +41,14 @@ object SchoolModel:
     extension (school: School)
       def addTeacher(name: String): School =
         var t: Teacher = (name, Nil())
-        (Cons(t, Nil()), //Sequence of Teacher
-          Nil())         //sequence of Course
+        school match
+          case (Cons(h, e), c) => (Cons(t, Cons(h, e)), c )
+          case (Nil(), c) => (Cons(t, Nil()), c )
 
       def addCourse(name: String): School =
-        (Nil(),              //Sequence of teacher
-          Cons(name, Nil())) //Sequence of Course
+        school match
+          case (i, c) => (i, Cons(name, c))
+
 
       @tailrec
       def loop[A](s: Sequence[A])(name: String): Optional[A]  = s match
@@ -58,21 +60,22 @@ object SchoolModel:
       def teacherByName(name: String): Optional[Teacher] = school match
         case (st, _) => loop(st)(name)
 
+      @tailrec
+      private def loopC[A](s: Sequence[A])(name: String): Optional[A] = s match
+        case Cons(h, t) if h == name => Just(h)
+        case Cons(h, t) if h != name => loopC(t)(name)
+        case Nil() => Empty()
+
       def courseByName(name: String): Optional[Course] = school match
-        case (_, sc) =>  loop(sc)(name)
+        case (_, sc) =>  loopC(sc)(name)
 
       def nameOfTeacher(teacher: Teacher): String = teacher match
         case (n, _) => n
 
-      def nameOfCourse(teacher: Teacher): String = teacher match
-        case (_, c) => c match
-          case Cons(h, Nil()) => h
+      def nameOfCourse(course: Course): String =
+        course
 
-      def setTeacherToCourse(teacher: Teacher, course: Course): School =
-        var t: Teacher = teacher
-        t match
-          case (_, c) => Cons(course, c)
-        (Cons(t, Nil()), Cons(course, Nil()))
+      //def setTeacherToCourse(teacher: Teacher, course: Course): School = ???
 
       def coursesOfATeacher(teacher: Teacher): Sequence[Course] = teacher match
         case (_, sc) => sc

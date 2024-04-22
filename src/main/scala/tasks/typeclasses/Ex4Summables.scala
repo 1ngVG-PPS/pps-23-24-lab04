@@ -33,7 +33,7 @@ object Ex4Summables:
     println:
       sumAllInt(si) // 60
 
-    /* uncomment from here   
+    /* uncomment from here
 
     println:
       sumAll(si) // 60
@@ -46,5 +46,5 @@ object Ex4Summables:
     println:
       sumAll(ss) // "102030"
 
-    */  
+    */
 
