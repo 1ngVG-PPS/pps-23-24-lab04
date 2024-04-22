@@ -23,7 +23,7 @@ class Stacktest:
   @Test def testPush() =
     assertEquals(Sequence.Cons(10, Sequence.Nil()), empty[Int].push(10).asSequence())
 
-  @Test def testPopOnEmpty() =
+  @Test def testPopOnEmpty() = 
     assertEquals(Optional.Empty(), empty[Int].pop(10))
 
   @Test def testPopOnNotEmpty() =
